@@ -20,8 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     filezilla \
     thunderbird \
     htop \
-    neofetch \
-    rclone \
+    fastfetch \
     python3-pip \
     git \
     curl \
@@ -30,7 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     nano \
     sudo \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* && \
+    curl -fsSL https://rclone.org/install.sh | bash
 
 RUN echo "alias ll='ls -alF'" >> /config/.bashrc && \
     echo "alias la='ls -A'" >> /config/.bashrc && \
