@@ -87,25 +87,38 @@ Works for that session only — reinstalls after restart.
 
 ## Persistence
 
-Render free tier has **no persistent storage**. All files outside `/config` reset on restart.
+Render free tier has **no persistent disk**. But `/config` folder **is preserved** across restarts. We use this to persist your cloud storage connection.
 
 | Data | Persists? | Strategy |
 |---|---|---|
-| User files | ❌ | Use rclone to mount Google Drive/Dropbox |
+| User files | ✅ via cloud mount | rclone auto-mounts Google Drive/Dropbox/OneDrive |
+| Cloud config | ✅ | Saved in `/config/.config/rclone/rclone.conf` |
 | Installed apps | ❌ | Reinstall or update Dockerfile |
-| Browser data | ✔️ | Use Firefox/Chrome sync |
-| Desktop config | ✔️ | Saved in `/config` |
+| Browser data | ✅ | Use Firefox/Chrome sync (or save to cloud mount) |
+| Desktop config | ✅ | Saved in `/config` |
 
-### Mount Cloud Storage with rclone
+### External Cloud Storage (Auto-Mount)
 
-```bash
-# First-time setup (follow prompts)
-rclone config
+The desktop auto-mounts your cloud storage on every session via **rclone**.
 
-# Mount Google Drive to ~/cloud
-mkdir -p ~/cloud
-rclone mount gdrive: ~/cloud --daemon
-```
+**First-time setup** (do once — survives restarts):
+
+1. Open **Terminal** from the desktop menu
+2. Run:
+   ```bash
+   rclone config
+   ```
+3. Follow prompts to connect your cloud service:
+   - Type `n` → name it (e.g. `gdrive`)
+   - Choose provider number (Google Drive=13, Dropbox=8, OneDrive=30)
+   - Follow OAuth link to authorize
+   - Done
+4. **Restart the desktop** (or reboot from the menu)
+5. Your cloud files appear in the **cloud** folder on the desktop
+
+**Supported providers:** Google Drive (15GB free), Dropbox (2GB free), OneDrive (5GB free), and [50+ others](https://rclone.org/overview/).
+
+**Your files survive all restarts, redeploys, and spin-ups.**
 
 ## Limitations (Render Free Tier)
 

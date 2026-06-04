@@ -7,6 +7,7 @@ ENV CUSTOM_USER=user
 ENV PASSWORD=admin123
 ENV VNC_PW=admin123
 ENV VNC_RESOLUTION=1366x768
+ENV CLOUD_MOUNT_PATH=/config/cloud
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libreoffice-writer \
@@ -29,11 +30,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     nano \
     sudo \
+    fuse \
     && rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://rclone.org/install.sh | bash
 
 RUN echo "alias ll='ls -alF'" >> /config/.bashrc && \
     echo "alias la='ls -A'" >> /config/.bashrc && \
     echo "alias l='ls -CF'" >> /config/.bashrc
+
+RUN mkdir -p /config/cloud
+
+COPY cloud-mount.sh /etc/cont-init.d/99-cloud-mount
+RUN chmod +x /etc/cont-init.d/99-cloud-mount
 
 EXPOSE 3000
