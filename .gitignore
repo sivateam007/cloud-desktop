@@ -1,0 +1,18 @@
+# OS files
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# Docker
+.docker/
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
