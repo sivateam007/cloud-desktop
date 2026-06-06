@@ -10,37 +10,36 @@ ENV VNC_RESOLUTION=1366x768
 ENV CLOUD_MOUNT_PATH=/config/cloud
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libreoffice-writer \
-    libreoffice-calc \
-    libreoffice-impress \
     firefox \
-    chromium-browser \
-    gedit \
-    gimp \
-    vlc \
-    filezilla \
-    thunderbird \
-    htop \
-    fastfetch \
-    python3-pip \
-    git \
+    nano \
     curl \
     wget \
     unzip \
     zip \
-    nano \
     sudo \
     fuse \
     && rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://rclone.org/install.sh | bash
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    python3-pip \
+    htop \
+    fastfetch \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN echo "alias ll='ls -alF'" >> /config/.bashrc && \
     echo "alias la='ls -A'" >> /config/.bashrc && \
     echo "alias l='ls -CF'" >> /config/.bashrc
 
-RUN mkdir -p /config/cloud
+RUN mkdir -p /config/cloud /config/Desktop
 
 COPY cloud-mount.sh /etc/cont-init.d/99-cloud-mount
 RUN chmod +x /etc/cont-init.d/99-cloud-mount
+
+COPY install-extra.sh /config/Desktop/install-extra.sh
+RUN chmod +x /config/Desktop/install-extra.sh
+
+COPY install-extra.desktop /config/Desktop/install-extra.desktop
 
 EXPOSE 3000

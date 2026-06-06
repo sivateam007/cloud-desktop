@@ -21,7 +21,7 @@ else
 Type=Application
 Name=Rclone Setup
 Comment=Configure cloud storage (Google Drive, Dropbox, OneDrive)
-Exec=xfce4-terminal -e "bash -c 'rclone config; echo --- Done ---; echo Press Enter to close; read'"
+Exec=xterm -e "bash -c 'rclone config; echo --- Done ---; echo Press Enter to close; read'"
 Icon=drive-harddisk
 Terminal=false
 Categories=Utility;

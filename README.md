@@ -6,17 +6,27 @@ Browser-based Linux desktop with pre-installed apps, hosted on Render's free tie
 
 | App | Purpose |
 |---|---|
-| LibreOffice Writer | Word documents (.docx) |
-| LibreOffice Calc | Excel spreadsheets (.xlsx) |
-| LibreOffice Impress | PowerPoint presentations (.pptx) |
 | Firefox | Web browser + Office Online access |
-| Chromium | Backup browser |
-| GIMP | Image editing |
-| VLC | Media player |
-| FileZilla | FTP/SFTP client |
-| Thunderbird | Email client |
 | Terminal | Full command-line access |
-| Git + Python + Node | Development tools |
+| Git + Python | Development tools |
+| rclone | Cloud storage auto-mount |
+| Nano editor | File editing |
+
+## Install Extra Apps (One-Click)
+
+Double-click **"Install Extra Apps"** on the desktop to install:
+
+| App | Size | Purpose |
+|---|---|---|
+| LibreOffice | ~200MB | PPT, Word, Excel |
+| Chromium | ~150MB | Backup browser |
+| GIMP | ~80MB | Image editor |
+| VLC | ~40MB | Media player |
+| FileZilla | ~5MB | FTP/SFTP |
+| VS Code | ~100MB | Code editor |
+| Thunderbird | ~50MB | Email client |
+
+> **Note:** Installed apps last only for the current session. After a Render restart, re-install using the same shortcut. To make permanent, add to `Dockerfile`.
 
 ## How to Deploy
 
