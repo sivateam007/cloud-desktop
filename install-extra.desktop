@@ -2,7 +2,7 @@
 Type=Application
 Name=Install Extra Apps
 Comment=Install LibreOffice, Chromium, GIMP, VLC and more
-Exec=xterm -e /config/Desktop/install-extra.sh
+Exec=xterm -e /home/user/Desktop/install-extra.sh
 Icon=system-software-install
 Terminal=false
 Categories=System;

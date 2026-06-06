@@ -1,8 +1,7 @@
 #!/bin/bash
 
-CONFIG_FILE=/config/.config/rclone/rclone.conf
-MOUNT_PATH=/config/cloud
-SETUP_SCRIPT=/config/Desktop/rclone-setup.desktop
+CONFIG_FILE=/home/user/.config/rclone/rclone.conf
+MOUNT_PATH=/home/user/cloud
 
 if [ -f "$CONFIG_FILE" ]; then
     REMOTE=$(head -1 "$CONFIG_FILE" | tr -d '[]')
@@ -15,15 +14,4 @@ if [ -f "$CONFIG_FILE" ]; then
             --vfs-cache-mode writes \
             --log-level ERROR
     fi
-else
-    cat > "$SETUP_SCRIPT" << 'EOF'
-[Desktop Entry]
-Type=Application
-Name=Rclone Setup
-Comment=Configure cloud storage (Google Drive, Dropbox, OneDrive)
-Exec=xterm -e "bash -c 'rclone config; echo --- Done ---; echo Press Enter to close; read'"
-Icon=drive-harddisk
-Terminal=false
-Categories=Utility;
-EOF
 fi

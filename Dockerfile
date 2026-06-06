@@ -1,45 +1,65 @@
-FROM lscr.io/linuxserver/webtop:ubuntu-xfce
+FROM ubuntu:22.04
 
+ENV DEBIAN_FRONTEND=noninteractive
 ENV TITLE=CloudDesktop
-ENV PUID=1000
-ENV PGID=1000
-ENV CUSTOM_USER=user
-ENV PASSWORD=admin123
 ENV VNC_PW=admin123
-ENV VNC_RESOLUTION=1366x768
-ENV CLOUD_MOUNT_PATH=/config/cloud
+ENV VNC_RESOLUTION=1280x720
+ENV DISPLAY=:99
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    xvfb \
+    x11vnc \
+    openbox \
+    obconf \
+    xorgxrdp \
+    xterm \
     firefox \
     nano \
     curl \
     wget \
     unzip \
-    zip \
     sudo \
-    fuse \
-    && rm -rf /var/lib/apt/lists/* && \
-    curl -fsSL https://rclone.org/install.sh | bash
+    ca-certificates \
+    python3 \
+    python3-numpy \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://rclone.org/install.sh | bash
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
-    python3-pip \
     htop \
-    fastfetch \
+    net-tools \
     && rm -rf /var/lib/apt/lists/*
 
-RUN echo "alias ll='ls -alF'" >> /config/.bashrc && \
-    echo "alias la='ls -A'" >> /config/.bashrc && \
-    echo "alias l='ls -CF'" >> /config/.bashrc
+RUN ln -sf /usr/bin/python3 /usr/bin/python
 
-RUN mkdir -p /config/cloud /config/Desktop
+RUN mkdir -p /opt/novnc && \
+    curl -fsSL https://github.com/novnc/noVNC/archive/refs/tags/v1.5.0.tar.gz | \
+    tar xz -C /opt/novnc --strip-components=1 && \
+    curl -fsSL https://github.com/novnc/websockify/archive/refs/tags/v0.12.0.tar.gz | \
+    tar xz -C /opt/novnc/utils --strip-components=1
 
-COPY cloud-mount.sh /etc/cont-init.d/99-cloud-mount
-RUN chmod +x /etc/cont-init.d/99-cloud-mount
+RUN useradd -m -s /bin/bash user && \
+    echo "user:user" | chpasswd && \
+    echo "user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-COPY install-extra.sh /config/Desktop/install-extra.sh
-RUN chmod +x /config/Desktop/install-extra.sh
+RUN echo "alias ll='ls -alF'" >> /home/user/.bashrc && \
+    echo "alias la='ls -A'" >> /home/user/.bashrc
 
-COPY install-extra.desktop /config/Desktop/install-extra.desktop
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-EXPOSE 3000
+COPY cloud-mount.sh /cloud-mount.sh
+RUN chmod +x /cloud-mount.sh
+
+RUN mkdir -p /home/user/Desktop
+COPY install-extra.desktop /home/user/Desktop/
+COPY install-extra.sh /home/user/Desktop/
+RUN chmod +x /home/user/Desktop/install-extra.sh
+
+RUN chown -R user:user /home/user
+
+EXPOSE 8080
+
+CMD ["/start.sh"]

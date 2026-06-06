@@ -7,18 +7,10 @@ services:
     envVars:
       - key: TITLE
         value: CloudDesktop
-      - key: PUID
-        value: "1000"
-      - key: PGID
-        value: "1000"
-      - key: CUSTOM_USER
-        value: user
-      - key: PASSWORD
-        value: admin123
       - key: VNC_PW
         value: admin123
       - key: VNC_RESOLUTION
-        value: 1366x768
+        value: 1280x720
       - key: PORT
-        value: "3000"
+        value: "8080"
     healthCheckPath: /
