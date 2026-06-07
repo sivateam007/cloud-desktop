@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nano \
     curl \
     wget \
+    unzip \
     sudo \
     ca-certificates \
     git \
@@ -26,11 +27,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://rclone.org/install.sh | bash
-
-RUN curl -fsSL https://github.com/novnc/noVNC/archive/refs/tags/v1.5.0.tar.gz | tar xz -C /tmp && \
-    mkdir -p /usr/share/novnc && \
-    cp -r /tmp/noVNC-1.5.0/* /usr/share/novnc/ && \
-    rm -rf /tmp/noVNC-1.5.0
 
 RUN useradd -m -s /bin/bash user && \
     echo "user:user" | chpasswd && \
