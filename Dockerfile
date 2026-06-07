@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENv VNC_PW=admin123
+ENV VNC_PW=admin123
 ENV DISPLAY=:99
 ENV VNC_PORT=5901
 ENV NOVNC_PORT=8080
@@ -32,9 +32,8 @@ RUN useradd -m -s /bin/bash user && \
     echo "user:user" | chpasswd && \
     echo "user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN echo '<meta http-equiv="refresh" content="0;url=vnc.html">' > /usr/share/novnc/index.html 2>/dev/null || \
-    echo '<meta http-equiv="refresh" content="0;url=vnc.html">' > /usr/share/javascript/novnc/index.html 2>/dev/null || \
-    true
+RUN NOVNC_DIR=$(find /usr -name "vnc.html" -path "*/novnc/*" -exec dirname {} \; 2>/dev/null | head -1) && \
+    echo '<meta http-equiv="refresh" content="0;url=vnc.html?autoconnect=1&resize=scale&password='"$VNC_PW"'">' > "$NOVNC_DIR/index.html"
 
 RUN mkdir -p /home/user/Desktop /home/user/cloud
 
