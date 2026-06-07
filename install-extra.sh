@@ -15,13 +15,13 @@ echo ""
 read -p "Choose [0-7]: " choice
 
 case $choice in
-  1) apt-get update && apt-get install -y --no-install-recommends chromium-browser && rm -rf /var/lib/apt/lists/* && echo "Done!" ;;
-  2) apt-get update && apt-get install -y --no-install-recommends gimp && rm -rf /var/lib/apt/lists/* && echo "Done!" ;;
-  3) apt-get update && apt-get install -y --no-install-recommends vlc && rm -rf /var/lib/apt/lists/* && echo "Done!" ;;
-  4) apt-get update && apt-get install -y --no-install-recommends filezilla && rm -rf /var/lib/apt/lists/* && echo "Done!" ;;
-  5) apt-get update && apt-get install -y --no-install-recommends thunderbird && rm -rf /var/lib/apt/lists/* && echo "Done!" ;;
-  6) apt-get update && apt-get install -y --no-install-recommends chromium-browser gimp vlc filezilla thunderbird && rm -rf /var/lib/apt/lists/* && echo "Done!" ;;
-  7) read -p "Enter apt package name: " cmd && apt-get update && apt-get install -y --no-install-recommends $cmd && rm -rf /var/lib/apt/lists/* ;;
+  1) apt-get install -y --no-install-recommends chromium-browser && echo "Done!" ;;
+  2) apt-get install -y --no-install-recommends gimp && echo "Done!" ;;
+  3) apt-get install -y --no-install-recommends vlc && echo "Done!" ;;
+  4) apt-get install -y --no-install-recommends filezilla && echo "Done!" ;;
+  5) apt-get install -y --no-install-recommends thunderbird && echo "Done!" ;;
+  6) apt-get install -y --no-install-recommends chromium-browser gimp vlc filezilla thunderbird && echo "Done!" ;;
+  7) read -p "Enter apt package name: " cmd && apt-get install -y --no-install-recommends $cmd && echo "Done!" ;;
   0) exit 0 ;;
   *) echo "Invalid choice" ;;
 esac

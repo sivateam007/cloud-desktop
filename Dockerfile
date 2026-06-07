@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 python3-numpy python3-websockify novnc \
     nano curl wget unzip sudo ca-certificates \
     git htop \
-    && rm -rf /var/lib/apt/lists/*
+    && true
 
 RUN curl -fsSL https://rclone.org/install.sh | bash
 
