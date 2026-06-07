@@ -30,7 +30,7 @@ COPY menu.xml /home/user/.config/openbox/menu.xml
 COPY tint2rc /home/user/.config/tint2/tint2rc
 COPY pcmanfm.conf /home/user/.config/pcmanfm/default/pcmanfm.conf
 
-RUN python3 -c "
+RUN python3 <<'PYEOF'
 width, height = 1280, 720
 pixels = []
 for y in range(height):
@@ -43,7 +43,7 @@ ppm = 'P6\n{} {}\n255\n'.format(width, height)
 with open('/home/user/wallpaper.ppm', 'wb') as f:
     f.write(ppm.encode())
     f.write(bytes(pixels))
-"
+PYEOF
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
