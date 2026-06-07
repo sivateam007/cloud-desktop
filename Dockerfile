@@ -1,51 +1,42 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TITLE=CloudDesktop
-ENV VNC_PW=admin123
-ENV VNC_RESOLUTION=1280x720
+ENv VNC_PW=admin123
 ENV DISPLAY=:99
+ENV VNC_PORT=5901
+ENV NOVNC_PORT=8080
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     xvfb \
     x11vnc \
     openbox \
-    obconf \
-    xorgxrdp \
     xterm \
     firefox \
+    python3 \
+    python3-numpy \
+    python3-websockify \
+    novnc \
     nano \
     curl \
     wget \
-    unzip \
     sudo \
     ca-certificates \
-    python3 \
-    python3-numpy \
+    git \
+    htop \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://rclone.org/install.sh | bash
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    htop \
-    net-tools \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN ln -sf /usr/bin/python3 /usr/bin/python
-
-RUN mkdir -p /opt/novnc && \
-    curl -fsSL https://github.com/novnc/noVNC/archive/refs/tags/v1.5.0.tar.gz | \
-    tar xz -C /opt/novnc --strip-components=1 && \
-    curl -fsSL https://github.com/novnc/websockify/archive/refs/tags/v0.12.0.tar.gz | \
-    tar xz -C /opt/novnc/utils --strip-components=1
+RUN curl -fsSL https://github.com/novnc/noVNC/archive/refs/tags/v1.5.0.tar.gz | tar xz -C /tmp && \
+    mkdir -p /usr/share/novnc && \
+    cp -r /tmp/noVNC-1.5.0/* /usr/share/novnc/ && \
+    rm -rf /tmp/noVNC-1.5.0
 
 RUN useradd -m -s /bin/bash user && \
     echo "user:user" | chpasswd && \
     echo "user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN echo "alias ll='ls -alF'" >> /home/user/.bashrc && \
-    echo "alias la='ls -A'" >> /home/user/.bashrc
+RUN mkdir -p /home/user/Desktop /home/user/cloud
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
@@ -53,10 +44,10 @@ RUN chmod +x /start.sh
 COPY cloud-mount.sh /cloud-mount.sh
 RUN chmod +x /cloud-mount.sh
 
-RUN mkdir -p /home/user/Desktop
-COPY install-extra.desktop /home/user/Desktop/
 COPY install-extra.sh /home/user/Desktop/
 RUN chmod +x /home/user/Desktop/install-extra.sh
+
+COPY install-extra.desktop /home/user/Desktop/
 
 RUN chown -R user:user /home/user
 
