@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu>
+  <menu id="root-menu" label="Applications">
+    <item label="Terminal">
+      <action name="Execute"><command>xterm</command></action>
+    </item>
+    <item label="Firefox">
+      <action name="Execute"><command>firefox</command></action>
+    </item>
+    <separator/>
+    <menu id="office" label="Office">
+      <item label="LibreOffice Writer">
+        <action name="Execute"><command>libreoffice --writer</command></action>
+      </item>
+      <item label="LibreOffice Calc">
+        <action name="Execute"><command>libreoffice --calc</command></action>
+      </item>
+      <item label="LibreOffice Impress">
+        <action name="Execute"><command>libreoffice --impress</command></action>
+      </item>
+    </menu>
+    <separator/>
+    <item label="File Manager">
+      <action name="Execute"><command>pcmanfm</command></action>
+    </item>
+    <item label="Install Extra Apps">
+      <action name="Execute"><command>xterm -e /home/user/Desktop/install-extra.sh</command></action>
+    </item>
+    <item label="Setup Cloud Storage">
+      <action name="Execute"><command>xterm -e "rclone config; echo Done; read"</command></action>
+    </item>
+    <separator/>
+    <item label="Refresh Desktop">
+      <action name="Reconfigure"></action>
+    </item>
+    <separator/>
+    <item label="Log Out">
+      <action name="Exit"></action>
+    </item>
+  </menu>
+</openbox_menu>

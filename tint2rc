@@ -1,0 +1,34 @@
+# Tint2 taskbar config
+# Panel
+panel_items = LTSB
+panel_size = 100% 30
+panel_margin = 0 0
+panel_padding = 2 2 2
+panel_background_id = 1
+wm_menu = 1
+
+# Taskbar
+taskbar_mode = single_desktop
+taskbar_padding = 2 2 2
+task_background_id = 1
+
+# System tray
+systray_padding = 2 2 2
+
+# Clock
+time1_format = %H:%M
+time1_font = sans 9
+clock_padding = 2 0
+clock_background_id = 0
+
+# Buttons
+button_text = yes
+button_font = sans 8
+button_padding = 4 2
+button_background_id = 0
+
+# Backgrounds
+rounded = no
+border_width = 0
+background_color = #222222 100
+border_color = #444444 100

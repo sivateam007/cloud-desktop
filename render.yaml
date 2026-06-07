@@ -5,12 +5,8 @@ services:
     dockerfilePath: ./Dockerfile
     plan: free
     envVars:
-      - key: TITLE
-        value: CloudDesktop
       - key: VNC_PW
         value: admin123
-      - key: VNC_RESOLUTION
-        value: 1280x720
       - key: PORT
         value: "8080"
     healthCheckPath: /
