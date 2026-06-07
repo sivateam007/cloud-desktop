@@ -10,18 +10,18 @@ if [ ! -e /tmp/.X11-unix/X99 ]; then
     exit 1
 fi
 
-xhost + 2>/dev/null
+export DISPLAY=:99
 
-su user -c 'DISPLAY=:99 openbox' &
+openbox &
 sleep 2
 
-su user -c 'DISPLAY=:99 tint2' &
+tint2 &
 sleep 1
 
-su user -c 'DISPLAY=:99 pcmanfm --desktop' &
+pcmanfm --desktop &
 sleep 1
 
-su user -c 'DISPLAY=:99 feh --bg-fill /home/user/wallpaper.ppm' 2>/dev/null || true
+feh --bg-fill /root/wallpaper.ppm 2>/dev/null || feh --bg-fill /home/user/wallpaper.ppm 2>/dev/null || true
 
 mkdir -p /home/user/.vnc
 x11vnc -storepasswd "$VNC_PW" /home/user/.vnc/passwd 2>/dev/null
@@ -33,7 +33,7 @@ NOVNC_DIR=$(find /usr -name "vnc.html" -path "*/novnc/*" -exec dirname {} \; 2>/
 /usr/bin/websockify --web "$NOVNC_DIR" 8080 localhost:5901 &
 sleep 1
 
-su user -c 'DISPLAY=:99 /cloud-mount.sh' &
+/cloud-mount.sh &
 
 echo "READY"
 wait
